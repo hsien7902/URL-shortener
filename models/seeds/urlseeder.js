@@ -9,10 +9,9 @@ db.on('error', () => {
   console.log('mongodb error')
 })
 db.once('open', () => {
+  Url.create({
+    URL: 'https://www.google.com',
+    NewURL: 'https://your-project-name.herokuapp.com/6y7UP',
+  })
   console.log('mongodb connected')
-  for (let i = 0; i < 4; i++) {
-    Url.create({ name: `http://localhost:${i}` })
-  }
-  db.clse()
-  console.log('Done')
 })
