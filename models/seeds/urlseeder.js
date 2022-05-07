@@ -11,7 +11,7 @@ db.on('error', () => {
 db.once('open', () => {
   Url.create({
     URL: 'https://www.google.com',
-    NewURL: 'https://your-project-name.herokuapp.com/6y7UP',
+    NewURL: 'https://Url-Shorten.herokuapp.com/6y7UP',
   })
   console.log('mongodb connected')
 })

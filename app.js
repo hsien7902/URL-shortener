@@ -27,21 +27,36 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', (req, res) => {
   res.render('index')
 })
-//create shorten url page
+//trun to 'new' page & get shorten-URL
 app.post('/shorten-urls', (req, res) => {
   const website = req.body.website
-  return Url.findOne({ URL: `${website}` }).lean()
-    .then(url => res.render('new', { url: url }))
+  if (!website.trim()) {
+    return res.redirect('/')
+  }
+
+  /**
+   * 1. find if the url is in the table
+   * 2. if yes -> return NewURL
+   * 3. if no -> create the short url
+   * 4. if no -> insert a new record in this table, then return the content
+   * 5. render the web 
+   */
+  
+  return Url.findOne({ URL: website }).lean()
+    .then(url => url ? url : Url.create({ URL: website, NewURL: website }))
+    .then(url => res.render('new', { shortURL: url.NewURL }))
     .catch(error => console.log(error))
 
 })
 
-app.get('/shorten', (req, res) => {
-  const website = req.body.website
-  console.log(website)
-  return Url.findOne({ URL: `${website}` }).lean()
-    .then(url => res.redirect(`${url.URL}`))
-    .catch(error => console.log(error))
+//shorten-URL link to origin website
+app.get('/:NewURL', (req, res) => {
+  return res.render('index')
+  // const website = req.body.website
+  // console.log(website)
+  // return Url.findOne({ URL: `${website}` }).lean()
+  //   .then(url => res.redirect(`${url.URL}`))
+  //   .catch(error => console.log(error))
 })
 
 //listen app

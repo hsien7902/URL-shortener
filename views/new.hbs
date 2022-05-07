@@ -4,11 +4,13 @@
     <input type="text" name="website" class="form-control ml-1" placeholder="{{url.URL}}" aria-label="website" disabled>
 
   </div>
-  <a href="/shorten" class="url-text justify-content-center">
+  <div class="url-text justify-content-center">
     <h4 id="shortenURL" class="text-center" style="display: inline; vertical-align: middle;">
-      {{ url.NewURL }}
+      {{ shortURL }}
     </h4>
-  </a>
+  </div>
+
+
 
   <div class="shorten text-center">
     <button class="btn btn-success p-3 m-1" id="copy-button" onclick="copy()">
