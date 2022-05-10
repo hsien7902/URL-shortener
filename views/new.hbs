@@ -1,29 +1,30 @@
-<form action="/shorten-urls/" method="post">
+<form action="/shorten-urls" method="post">
   <h4 class="my-3 text-center">指定網址：</h4>
   <div class="input-group p-1 m-1">
-    <input type="text" name="website" class="form-control ml-1" placeholder="{{url.URL}}" aria-label="website" disabled>
-
-  </div>
-  <div class="url-text justify-content-center">
-    <h4 id="shortenURL" class="text-center" style="display: inline; vertical-align: middle;">
-      {{ shortURL }}
-    </h4>
-  </div>
-
-
-
-  <div class="shorten text-center">
-    <button class="btn btn-success p-3 m-1" id="copy-button" onclick="copy()">
-      複製連結
-    </button>
-    <script>
-      function copy() {
-        const URL = document.getElementById("shortenURL")
-        navigator.clipboard.writeText(URL.innerText)
-          .then(() => alert('copied'))
-          .catch(error => console.log(error))
-      }
-    </script>
-
+    <input type="text" name="website" class="form-control ml-1" placeholder="{{origin}}" aria-label="website" disabled>
   </div>
 </form>
+<a href="/{{shortURL}}">
+  <div class="url-text justify-content-center">
+    <h4 id="shortenURL" class="text-center" style="display: inline; vertical-align: middle;">
+      {{origin}}/ {{ shortURL }}
+    </h4>
+  </div>
+</a>
+
+
+
+
+<div class="shorten text-center">
+  <button class="btn btn-success p-3 m-1" id="copy-button" onclick="copy()">
+    複製連結
+  </button>
+  <script>
+    function copy() {
+      const URL = document.getElementById("shortenURL")
+      navigator.clipboard.writeText(URL.innerText)
+        .then(() => alert('copied'))
+        .catch(error => console.log(error))
+    }
+  </script>
+</div>

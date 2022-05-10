@@ -6,6 +6,7 @@ const Url = require('./models/url')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')//載入handlebars
 const bodyParser = require('body-parser')
+const makeId = require('./shortenURL')
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -29,34 +30,35 @@ app.get('/', (req, res) => {
 })
 //trun to 'new' page & get shorten-URL
 app.post('/shorten-urls', (req, res) => {
+
   const website = req.body.website
-  if (!website.trim()) {
+  //不要有空白、非網址的關鍵字
+  const header = website.substring(0, 8)
+  if (!(website.trim() && header === 'https://')) {
+    console.log('not a website') //alert()無法用
     return res.redirect('/')
   }
-
   /**
    * 1. find if the url is in the table
    * 2. if yes -> return NewURL
    * 3. if no -> create the short url
    * 4. if no -> insert a new record in this table, then return the content
-   * 5. render the web 
+   * 5. how to render the web: url link to origin
    */
-  
+  const shortenID = makeId(5)
+  const host = req.headers.origin
   return Url.findOne({ URL: website }).lean()
-    .then(url => url ? url : Url.create({ URL: website, NewURL: website }))
-    .then(url => res.render('new', { shortURL: url.NewURL }))
+    .then(url => url ? url : Url.create({ URL: website, NewURL: shortenID }))
+    .then(url => res.render('new', { shortURL: url.NewURL, origin: host }))
     .catch(error => console.log(error))
 
 })
-
 //shorten-URL link to origin website
 app.get('/:NewURL', (req, res) => {
-  return res.render('index')
-  // const website = req.body.website
-  // console.log(website)
-  // return Url.findOne({ URL: `${website}` }).lean()
-  //   .then(url => res.redirect(`${url.URL}`))
-  //   .catch(error => console.log(error))
+  const shortener = req.params.NewURL
+  return Url.findOne({ NewURL: shortener }).lean()
+    .then(url => res.redirect(url.URL))
+    .catch(error => console.log(error))
 })
 
 //listen app
