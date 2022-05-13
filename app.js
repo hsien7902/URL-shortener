@@ -38,18 +38,16 @@ app.post('/shorten-urls', (req, res) => {
     console.log('not a website') //alert()無法用
     return res.redirect('/')
   }
-  /**
-   * 1. find if the url is in the table
-   * 2. if yes -> return NewURL
-   * 3. if no -> create the short url
-   * 4. if no -> insert a new record in this table, then return the content
-   * 5. how to render the web: url link to origin
-   */
+  //輸入亂數 5 character for newurl
   const shortenID = makeId(5)
   const host = req.headers.origin //回傳本地伺服器url
+
   return Url.findOne({ URL: website }).lean()
     .then(url => url ? url : Url.create({ URL: website, NewURL: shortenID }))
-    .then(url => res.render('new', { URL: url.URL, shortURL: url.NewURL, origin: host }))
+    .then(url => {
+      const shortenURL = `${host}/${url.NewURL}`
+      res.render('new', { URL: url.URL, shortURL: shortenURL, shortID: url.NewURL })
+    })
     .catch(error => console.log(error))
 
 })

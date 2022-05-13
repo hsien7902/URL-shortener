@@ -4,11 +4,11 @@
     <input type="text" name="website" class="form-control ml-1" placeholder="{{URL}}" aria-label="website" disabled>
   </div>
 </form>
-<a href="/{{shortURL}}">
+<a href="/{{shortID}}">
   <div class="url-text justify-content-center">
-    <h4 id="shortenURL" class="text-center" style="display: inline; vertical-align: middle;">
-      {{origin}} / {{ shortURL }}
-    </h4>
+    <p id="shortenURL" class="text-center" style="display: inline; vertical-align: middle;">
+      {{shortURL}}
+    </p>
   </div>
 </a>
 
@@ -17,10 +17,15 @@
   <button class="btn btn-success p-3 m-1" id="copy-button" onclick="copy()">
     複製連結
   </button>
+  <a href="/">
+    <button class="btn btn-primary p-3 m-1" type="submit" id="goBack-button">
+      回到首頁
+    </button>
+  </a>
   <script>
     function copy() {
       const shortenURL = document.getElementById("shortenURL")
-      navigator.clipboard.writeText(shortenURL.innerText)
+      navigator.clipboard.writeText(shortenURL.innerText.trim())
         .then(() => alert('copied'))
         .catch(error => console.log(error))
     }
