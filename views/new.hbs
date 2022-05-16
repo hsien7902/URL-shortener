@@ -1,14 +1,16 @@
 <form action="/shorten-urls" method="post">
   <h4 class="my-3 text-center">指定網址：</h4>
-  <div class="input-group p-1 m-1">
-    <input type="text" name="website" class="form-control ml-1" placeholder="{{URL}}" aria-label="website" disabled>
+  <div class="row justify-content-center">
+    <div class="input-group w-75 m-2">
+      <input type="text" name="website" class="form-control ml-1" placeholder="{{URL}}" aria-label="website" disabled>
+    </div>
   </div>
 </form>
 <a href="/{{shortID}}">
-  <div class="url-text justify-content-center">
-    <p id="shortenURL" class="text-center" style="display: inline; vertical-align: middle;">
+  <div class="url-text text-center">
+    <h4 id="shortenURL" style="display: inline;">
       {{shortURL}}
-    </p>
+    </h4>
   </div>
 </a>
 
